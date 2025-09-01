@@ -34,7 +34,8 @@ contract Auction is Ownable, ReentrancyGuard{
 
     event auctionState(string text, uint256 indexed auctionIndex);
     event newBid(uint256 indexed index, string itemName, uint256 amount);
-    
+    event haveWithdrawn(address bidder, string itemName, uint256 amount);
+
     /// @dev start the auction
     function startAuction() public onlyOwner{
         currentAuction +=1;
@@ -70,7 +71,6 @@ contract Auction is Ownable, ReentrancyGuard{
     
         emit newBid(currentAuction, _itemName, msg.value);
     }
-    event (address bidder, string itemName, uint256 amount)haveWithdrawn;
     function withdraw(string calldata _itemName) public nonReentrant{
         uint256 temp = previousBids[msg.sender][_itemName];
         require(temp > 0, "No funds to withdraw");
